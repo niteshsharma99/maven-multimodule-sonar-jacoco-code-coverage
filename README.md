@@ -1,0 +1,1 @@
+# maven-multimodule-sonar-jacoco-code-coverage
