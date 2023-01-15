@@ -1,0 +1,133 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.testcoveragereport</groupId>
+	<artifactId>test-coverage-report-jacoco</artifactId>
+	<packaging>pom</packaging>
+	<version>1.0.0-SNAPSHOT</version>
+	<description>Test Coverage - jacoco demo</description>
+
+	<modules>
+		<module>module1</module>
+		<module>module2</module>
+		<module>test-aggregate</module>
+	</modules>
+
+	<properties>
+		<sonar.login>admin</sonar.login>
+		<sonar.password>1234</sonar.password>
+		<sonar.host.url>http://localhost:9000</sonar.host.url>
+
+		<maven.compiler.source>11</maven.compiler.source>
+		<maven.compiler.target>11</maven.compiler.target>
+
+
+		<maven-failsafe-plugin.version>2.22.2</maven-failsafe-plugin.version>
+		<jacoco.version>0.8.6</jacoco.version>
+		<cucumber.version>6.9.1</cucumber.version>
+		<junit-jupiter.version>5.7.0</junit-jupiter.version>
+		
+		<itCoverageAgent></itCoverageAgent>
+		<sonar.language>java</sonar.language>
+		<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>	
+		<sonar.exclusions>**/pom.xml</sonar.exclusions>		
+		<sonar.scm.provider>git</sonar.scm.provider>
+		<sonar.log.level>TRACE</sonar.log.level>
+		<sonar.verbose>true</sonar.verbose>	
+		<sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+		
+	 <sonar.coverage.jacoco.xmlReportPaths>${maven.multiModuleProjectDirectory}/module1/target/site/jacoco/jacoco.xml,${maven.multiModuleProjectDirectory}/module2/target/site/jacoco/jacoco.xml,${maven.multiModuleProjectDirectory}/test-aggregate/target/site/jacoco-aggregate/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+    </properties>
+
+	<build>
+
+		<pluginManagement>
+			<plugins>
+				<plugin>
+					<groupId>org.jacoco</groupId>
+					<artifactId>jacoco-maven-plugin</artifactId>
+					<version>${jacoco.version}</version>
+					<executions>
+						<execution>
+							<id>prepare-unit-tests</id>
+							<phase>initialize</phase>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+						</execution>
+
+						<!-- prepare agent before integration tests -->
+						<execution>
+							<id>prepare-agent</id>
+							<goals>
+								<goal>prepare-agent</goal>
+							</goals>
+							<phase>pre-integration-test</phase>
+							<configuration>
+								<propertyName>itCoverageAgent</propertyName>
+							</configuration>
+						</execution>						
+					</executions>
+				</plugin>
+
+			</plugins>
+		</pluginManagement>
+	</build>
+
+	<repositories>
+		<repository>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Repository Switchboard</name>
+			<url>https://repo1.maven.org/maven2</url>
+		</repository>
+	</repositories>
+	<pluginRepositories>
+		<pluginRepository>
+			<releases>
+				<updatePolicy>never</updatePolicy>
+			</releases>
+			<snapshots>
+				<enabled>false</enabled>
+			</snapshots>
+			<id>central</id>
+			<name>Maven Plugin Repository</name>
+			<url>https://repo1.maven.org/maven2</url>
+		</pluginRepository>
+	</pluginRepositories>
+
+	<!-- ====================================================================== -->
+	<!-- D E P E N D E N C I E S -->
+	<!-- ====================================================================== -->
+	<dependencyManagement>
+		<dependencies>
+			<dependency>
+				<groupId>org.junit.jupiter</groupId>
+				<artifactId>junit-jupiter-engine</artifactId>
+				<version>${junit-jupiter.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-java</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+			<dependency>
+				<groupId>io.cucumber</groupId>
+				<artifactId>cucumber-junit-platform-engine</artifactId>
+				<version>${cucumber.version}</version>
+				<scope>test</scope>
+			</dependency>
+
+		</dependencies>
+	</dependencyManagement>
+
+</project>
