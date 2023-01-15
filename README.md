@@ -16,7 +16,9 @@ SonarQube Server 8.6+
 
 How to build
 Start Sonarqube server in Docker
+
 docker run --rm --name sonarqube -p 9000:9000 -v /mnt/c/Albin/blogData/docker-container-files/data:/opt/sonarqube/data -v /mnt/c/Albin/blogData/docker-container-files/logs:/opt/sonarqube/logs -e SONARQUBE_ADMIN_PASSWORD="Welcome1" techforum/sonarqube-with-custom-plugins-aem:latest
+
 Change the mountpoint details
 
 Generate Coverage Report
